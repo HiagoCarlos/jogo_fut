@@ -1,254 +1,327 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="keywords" content="Realtime,Soccer,Game,Training" />
-    <meta
-      name="description"
-      content="É hora de descobrir quem são os treinadores mais pernetas! Vem pro futzin dos treinadores!"
-    />
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <title>[TRE] Futzin dos Treinadores</title>
-    <meta property="og:locale" content="pt_BR" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="[TRE] Futzin dos Treinadores" />
-    <meta property="og:title" content="[TRE] Futzin dos Treinadores" />
-    <meta
-      property="og:description"
-      content="É hora de descobrir quem são os treinadores mais pernetas! Vem pro futzin dos treinadores!"
-    />
-    <meta property="og:image" content="/assets/Logo_Game.png" />
-    <meta property="og:image:alt" content="Logo do [TRE] Futzin dos Treinadores" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="[TRE] Futzin dos Treinadores" />
-    <meta
-      name="twitter:description"
-      content="É hora de descobrir quem são os treinadores mais pernetas! Vem pro futzin dos treinadores!"
-    />
-    <meta name="twitter:image" content="/assets/Logo_Game.png" />
-    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
-    <link rel="apple-touch-icon" href="/assets/favicon-192.png" />
-    <!-- Custom Fonts are loaded in style.css -->
-    <link rel="stylesheet" href="/style.css?v=20260507-home-layout-2" />
-  </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Copa dos Treinadores 2026</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
 
-  <body>
-    <svg
-      style="display: none; position: absolute; width: 0; height: 0"
-      xmlns="http://www.w3.org/2000/svg"
-      version="1.1"
-    >
-      <defs>
-        <filter id="crispify">
-          <feComponentTransfer>
-            <feFuncA type="discrete" tableValues="0 1" />
-          </feComponentTransfer>
-        </filter>
-      </defs>
-    </svg>
-    <div id="loading" style="display: none">
-      <div class="habbo-loader">
-        <img src="/assets/ball-dark-light.png" class="spin-ball" alt="Bola" />
-        <p>CARREGANDO...</p>
-      </div>
-    </div>
+    <style>
+        :root {
+            /* Paleta Dark Brasil */
+            --bg-body: #030a16; /* Azul quase preto pro fundo geral */
+            --bg-card: #0b172a; /* Azul escuro pros painéis */
+            --bg-input: #020617; /* Fundo dos inputs e caixas internas */
+            
+            --verde-brilho: #00e676; /* Verde neon pro Brasil */
+            --amarelo-brilho: #ffea00; /* Amarelo neon */
+            --azul-claro: #38bdf8;
+            
+            --texto-principal: #f8fafc;
+            --texto-secundario: #94a3b8;
+            --borda-escura: #1e293b;
+        }
 
-    <div class="lobby-shell">
-      <aside
-        class="lobby-side lobby-side--left"
-        aria-hidden="true"
-        style="flex:0 0 clamp(140px,20vw,350px);display:flex;justify-content:center;align-items:flex-start;padding-top:96px"
-      >
-        <img
-          src="/assets/azul.png?v=20260507-home-layout-2"
-          alt=""
-          class="lobby-side-image"
-          style="display:block;width:clamp(140px,20vw,350px);height:auto;max-width:100%;image-rendering:pixelated"
-        />
-      </aside>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-      <main class="habbo-lobby-container">
-      <!-- Header -->
-      <header class="habbo-header">
-        <div class="logo-area">
-          <img src="/assets/Logo_Game.png" alt="Logo Game" class="main-logo" />
-        </div>
-        <div class="user-info">
-          <span class="habbo-motto">FUTZIN DOS TREINADORES</span>
-        </div>
-      </header>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            /* Fundo escuro com um leve brilho verde no topo, estilo holofote de estádio */
+            background: radial-gradient(circle at top, #013516 0%, var(--bg-body) 60%);
+            color: var(--texto-principal);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
 
-      <!-- Main Content Grid -->
-      <div class="habbo-content">
-        <!-- Bottom Row: Integrated Entrance & Queue Card -->
-        <section class="habbo-box entrance-integrated-box" style="flex: 1">
-          <div class="habbo-box-header">
-            <div class="habbo-box-title">ENTRAR NA ARENA & FILA DE ESPERA</div>
-            <span id="queue-count" class="queue-count-badge">0 jogadores</span>
-          </div>
-          <div class="habbo-box-content entrance-grid">
-            <div class="entrance-left">
-              <div class="status-bar">
-                <span class="status-label">STATUS:</span>
-                <span id="arena-status" class="status-value">CARREGANDO</span>
-              </div>
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-              <form id="join-form" class="habbo-form">
-                <label for="player-name">Nick no Habbo:</label>
-                <div class="input-group">
-                  <input
-                    type="text"
-                    id="player-name"
-                    placeholder="Digite seu nick..."
-                    autocomplete="name"
-                    required
-                  />
-                  <button
-                    class="habbo-btn habbo-btn-green"
-                    id="join-btn"
-                    type="submit"
-                  >
-                    ENTRAR
-                  </button>
+        /* --- CABEÇALHO --- */
+        .header {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-bottom: 4px solid var(--verde-brilho);
+        }
+
+        .header img { height: 60px; filter: drop-shadow(0 0 8px rgba(255,234,0,0.3)); }
+        .header h1 { font-weight: 900; font-size: 26px; text-transform: uppercase; letter-spacing: 1px; color: var(--texto-principal); text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+
+        /* --- LAYOUT PRINCIPAL --- */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 850px) {
+            .main-grid { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background: rgba(11, 23, 42, 0.85); /* Fundo com leve transparência */
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--borda-escura);
+        }
+
+        /* --- SEÇÃO DE ENTRADA (ESQUERDA) --- */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-input);
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--verde-brilho);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        #arena-status { color: var(--amarelo-brilho); text-transform: uppercase; letter-spacing: 1px; }
+
+        .form-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .form-group input {
+            flex: 1;
+            padding: 15px;
+            border-radius: 8px;
+            background: var(--bg-input);
+            border: 2px solid var(--borda-escura);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--verde-brilho);
+            font-family: 'Montserrat', sans-serif;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-group input::placeholder { color: #475569; }
+        .form-group input:focus { border-color: var(--verde-brilho); box-shadow: 0 0 12px rgba(0, 230, 118, 0.2); }
+
+        .btn {
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-green { 
+            background: var(--verde-brilho); 
+            color: #000; 
+            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3);
+        }
+        .btn-green:hover { background: #00c853; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 230, 118, 0.5); }
+
+        .btn-yellow { 
+            background: transparent; 
+            color: var(--amarelo-brilho); 
+            border: 2px solid var(--amarelo-brilho);
+            width: 100%; 
+            margin-top: 10px; 
+        }
+        .btn-yellow:hover { 
+            background: var(--amarelo-brilho); 
+            color: #000;
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 20px rgba(255, 234, 0, 0.2);
+        }
+
+        .help-text { font-size: 12px; color: var(--texto-secundario); margin-top: 15px; font-weight: 600; text-align: center; }
+
+        /* --- PAINEL DE REGRAS E PREMIOS --- */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .info-box {
+            background: var(--bg-input);
+            padding: 18px;
+            border-radius: 8px;
+            border-top: 3px solid var(--azul-claro);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .info-box h3 { font-size: 13px; font-weight: 900; margin-bottom: 8px; text-transform: uppercase; color: var(--texto-principal); letter-spacing: 0.5px; }
+        .info-box p { font-size: 12px; font-weight: 500; color: var(--texto-secundario); line-height: 1.6; }
+
+        .prize-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-card);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid var(--borda-escura);
+            color: var(--texto-principal);
+        }
+
+        .prize-row img { height: 18px; filter: drop-shadow(0 0 4px rgba(255,255,255,0.2)); }
+        .prize-highlight { color: var(--amarelo-brilho); }
+
+        /* --- FILA E VESTIÁRIO (DIREITA) --- */
+        .queue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--borda-escura);
+        }
+
+        .queue-header h2 { font-size: 16px; font-weight: 900; color: var(--texto-principal); }
+        #queue-count { 
+            background: var(--verde-brilho); 
+            color: #000; 
+            padding: 4px 12px; 
+            border-radius: 20px; 
+            font-size: 12px; 
+            font-weight: 800;
+        }
+
+        #queue-preview {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        /* Barra de rolagem customizada pro modo escuro */
+        #queue-preview::-webkit-scrollbar { width: 6px; }
+        #queue-preview::-webkit-scrollbar-track { background: var(--bg-input); border-radius: 4px; }
+        #queue-preview::-webkit-scrollbar-thumb { background: var(--borda-escura); border-radius: 4px; }
+
+        /* Classes que o seu welcome.js vai injetar */
+        #queue-preview > div {
+            background: var(--bg-input);
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            border-left: 4px solid var(--verde-brilho);
+            color: var(--texto-principal);
+            border-top: 1px solid var(--borda-escura);
+            border-right: 1px solid var(--borda-escura);
+            border-bottom: 1px solid var(--borda-escura);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header class="header">
+            <img src="/assets/Logo_Game.png" alt="Logo">
+            <h1>Copa dos Treinadores</h1>
+        </header>
+
+        <main class="main-grid">
+            
+            <section class="card">
+                <div class="status-bar">
+                    <span style="color: var(--texto-secundario);">STATUS DA ARENA:</span>
+                    <span id="arena-status">CARREGANDO...</span>
                 </div>
-              </form>
-              <div class="entrance-actions">
-                <button
-                  class="habbo-btn"
-                  id="spectate-btn"
-                  type="button"
-                >
-                  ASSISTIR PARTIDA
-                </button>
-                <small class="entrance-actions-copy">
-                  Entra sem jogar, só para acompanhar o campo e o chat ao vivo.
-                </small>
-              </div>
-              <p class="help-text" id="arena-copy">
-                Aguarde os treinadores abrirem a arena.
-              </p>
 
-              <section
-                class="lobby-info-grid"
-                aria-label="Informações da arena"
-              >
-                <article class="lobby-info-item">
-                  <img
-                    src="/assets/COMO_FUNCIONA.png"
-                    alt="Como Funciona"
-                    class="lobby-info-img useFilter"
-                  />
-                  <p>
-                    Uma arena unica para todo mundo: entram 5 no azul, 5 no
-                    vermelho, e o restante assiste enquanto aguarda a vez.
-                  </p>
-                </article>
-                <article class="lobby-info-item">
-                  <img
-                    src="/assets/REGRAS.png"
-                    alt="Regras"
-                    class="lobby-info-img useFilter"
-                  />
-                  <p>
-                    Ganha quem fizer 3 gols primeiro. O limite e 3 minutos; se
-                    terminar empatado, vira GOL DE OURO!
-                  </p>
-                </article>
-                <article class="lobby-info-item">
-                  <img
-                    src="/assets/DETALHES.png"
-                    alt="Detalhes"
-                    class="lobby-info-img useFilter"
-                  />
-                  <p>
-                    O gol vale 5 pontos para a EQUIPE TODA. A vitória da equipe
-                    soma mais 2 pontos para todos do time vencedor.
-                  </p>
-                </article>
-                <article class="lobby-info-item">
-                  <img
-                    src="/assets/PREMAICAO.png"
-                    alt="Pontuação"
-                    class="lobby-info-img useFilter"
-                  />
-                  <div style="display: flex; flex-direction: column; gap: 4px">
-                    <div style="display: flex; align-items: center; gap: 10px">
-                      <img
-                        src="/assets/hc_gift_31days_icon.png"
-                        alt="hc"
-                        class="lobby-info"
-                      />
-                      <p><strong>1º Lugar:</strong> 2 HC + 30 medalhas temporárias</p>
+                <form id="join-form">
+                    <div class="form-group">
+                        <input type="text" id="player-name" placeholder="Digite seu nick..." required autocomplete="off">
+                        <button class="btn btn-green" id="join-btn" type="submit">ENTRAR EM CAMPO</button>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 10px">
-                      <img
-                        src="/assets/hc_gift_31days_icon.png"
-                        alt="hc"
-                        class="lobby-info"
-                      />
-                      <p><strong>2º Lugar:</strong> 1 HC + 20 medalhas temporárias</p>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 10px">
-                      <img
-                        src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi6eYXfWOm_amq_2dKYBeJZFyM9BCJLtq_sEaI0F1hhgLcPikaeknqZnvZsqc7hu6cp_cuJPhs3m3nyt6j-YaBGTAKcL_EK-AxS92LmRxiDKldLE8w5dL3f5UX7pILZQV9GY2eAo2Lz8S3b/s0/863__-543.png"
-                        alt="hc"
-                        class="lobby-info"
-                      />
-                      <p><strong>3º Lugar:</strong> 1 HC + 10 medalhas temporárias</p>
-                    </div>
-                  </div>
-                </article>
-              </section>
-              <!-- <p class="lobby-chat-note">O chat fica em tempo real ao lado do campo para jogadores e espectadores acompanharem tudo sem sair da arena.</p> -->
-            </div>
-            <div class="entrance-right">
-              <h3 class="queue-inner-title">Fila Atual</h3>
-              <div class="admin-list queue-scroll-area" id="queue-preview">
-                <!-- Populated via JS -->
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
+                </form>
 
-      <!-- Footer -->
-      <footer class="habbo-footer">
-        <div class="footer-copy">Companhia dos Treinadores © 2026</div>
-        <div class="footer-credit">
-          <span>Desenvolvido por</span>
-          <img
-            src="https://www.habbo.com.br/habbo-imaging/avatarimage?user=mitojmcam&headonly=1&direction=2&head_direction=2&gesture=sml&size=s"
-            alt="mitojmcam"
-            class="footer-head"
-            loading="lazy"
-            referrerpolicy="no-referrer"
-          />
-          <strong>mitojmcam</strong>
-        </div>
-      </footer>
-      </main>
+                <button class="btn btn-yellow" id="spectate-btn" type="button">ASSISTIR NA ARQUIBANCADA</button>
+                <p class="help-text">Aguarde os treinadores abrirem a arena para jogar.</p>
 
-      <aside
-        class="lobby-side lobby-side--right"
-        aria-hidden="true"
-        style="flex:0 0 clamp(140px,20vw,350px);display:flex;justify-content:center;align-items:flex-start;padding-top:96px"
-      >
-        <img
-          src="/assets/vermelho.png?v=20260507-home-layout-2"
-          alt=""
-          class="lobby-side-image"
-          style="display:block;width:clamp(140px,20vw,350px);height:auto;max-width:100%;image-rendering:pixelated"
-        />
-      </aside>
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h3 style="color: var(--verde-brilho);">Como Funciona</h3>
+                        <p>Arena única: entram 5 no time Verde/Amarelo, 5 no time Azul, e o restante assiste enquanto aguarda a vez na fila.</p>
+                    </div>
+                    
+                    <div class="info-box" style="border-top-color: var(--verde-brilho);">
+                        <h3 style="color: var(--amarelo-brilho);">Regras da Copa</h3>
+                        <p>Ganha quem fizer 3 gols primeiro. Limite de 3 minutos por partida. Empatou? Vira Gol de Ouro automático!</p>
+                    </div>
+
+                    <div class="info-box" style="border-top-color: var(--amarelo-brilho);">
+                        <h3 style="color: var(--azul-claro);">Detalhes</h3>
+                        <p>Cada gol vale +5 pontos pro artilheiro. A vitória garante +2 pontos extras para todos da equipe vencedora.</p>
+                    </div>
+
+                    <div class="info-box" style="border-top-color: var(--verde-brilho);">
+                        <h3 style="color: var(--verde-brilho);">Premiação Oficial</h3>
+                        <div class="prize-row">
+                            <span>🥇 1º Lugar:</span>
+                            <img src="/assets/hc_gift_31days_icon.png" alt="HC">
+                            <span class="prize-highlight">1 HC</span>
+                        </div>
+                        <div class="prize-row">
+                            <span>🥈 2º Lugar:</span>
+                            <img src="/assets/hc_gift_31days_icon.png" alt="HC">
+                            <span class="prize-highlight">1 HC</span>
+                        </div>
+                        <div class="prize-row">
+                            <span>🥉 3º Lugar:</span>
+                            <img src="/assets/hc_gift_31days_icon.png" alt="HC">
+                            <span class="prize-highlight">1 HC</span>
+                           
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="card" style="align-self: start;">
+                <div class="queue-header">
+                    <h2>Fila do Vestiário</h2>
+                    <span id="queue-count">0 treinadores</span>
+                </div>
+                
+                <div id="queue-preview">
+                    </div>
+            </aside>
+
+        </main>
     </div>
 
     <script src="/welcome/welcome.js"></script>
-  </body>
+</body>
 </html>
