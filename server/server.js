@@ -170,7 +170,7 @@ app.post('/admin/api/:action', basicAdminAuth, async (req,res)=>{
     res.json({ok:true});
 });
 
-app.use("/",express.static("client", { maxAge: '1d' }));
+
 
 
 app.use('/room',roomsRouter)
@@ -198,3 +198,5 @@ const port=process.env.PORT ?? 8000;
 server.listen(port,()=>{
     console.log("server listening on port ",port);
 });
+
+app.use("/",express.static("client", { maxAge: '1d' }));
